@@ -1,0 +1,1 @@
+These files containing in this folder are modeling the acoustic wave propagation both forward and backward, which are implemented in staggered-grid scheme with perfectly matched layer absorbing boundary condition.

@@ -1,0 +1,1 @@
+These files containing in this folder are modeling the acoustic wave propagation both forward and backward, which are implemented in regular-grid scheme with hybrid absorbing boundary condition.
