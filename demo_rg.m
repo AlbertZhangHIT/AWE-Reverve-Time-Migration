@@ -41,7 +41,7 @@ gxz(:, 2) = 1:nx;
 vc = BPsmall(1, floor(nx/2))*ones(nz, nx);
 
 % forward modeling
-fdFolder = 'Data\BPsmall\rgFD\';
+fdFolder = 'Data\BPsmall4\rgFD_nt_2501_bnd_20\';
 Records = awe_rg_fm2d(nz, nx, nt, dz, dx, dt, bnd, BPsmall, wlt, sxz, gxz, 'display', 500, ...
         'wfddir', fdFolder, 'show', 1);
 % modeling direct wave
