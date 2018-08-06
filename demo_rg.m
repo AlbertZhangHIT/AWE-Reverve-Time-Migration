@@ -40,8 +40,13 @@ gxz(:, 2) = 1:nx;
 % constant velocity
 vc = BPsmall(1, floor(nx/2))*ones(nz, nx);
 
+forward = 1;
+backward = 1;
 % forward modeling
 fdFolder = 'Data\BPsmall4\rgFD_nt_2501_bnd_20\';
+Records = [];
+
+if forward
 Records = awe_rg_fm2d(nz, nx, nt, dz, dx, dt, bnd, BPsmall, wlt, sxz, gxz, 'display', 500, ...
         'wfddir', fdFolder, 'show', 1);
 % modeling direct wave
@@ -56,13 +61,16 @@ title('Seismic signals')
 writeRecords(nt, gxz, sxz, Records, fdFolder);
 % processing on seismic records
 
+end
 
+if backward
 % reverse time migration
 [rfl, image, normal] = awe_rg_rtm2d(nz, nx, nt, dz, dx, dt, bnd, BPsmall, sxz, gxz, fdFolder, 'display', 500, ...
-        'records', Records, 'show', 1);
+        'records', Records, 'recorddir', fdFolder, 'show', 1);
 
 % show
 figure, imagesc(x, z, rfl); colormap(gray), colorbar;
 % sharpen
 hrfl = Gaussian_highpass(rfl, 60, 'show', 1);
 figure, imagesc(x, z, hrfl); colormap(gray), colorbar;
+end
