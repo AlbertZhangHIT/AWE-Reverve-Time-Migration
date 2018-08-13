@@ -11,6 +11,7 @@ writeWfd = 0;
 displayFreq = inf;
 showImage = 0;
 recordFile = [];
+freeSurf = 0;
 %Parse the optional inputs.
 if (mod(length(varargin), 2) ~= 0 )
     error(['Extra Parameters passed to the function ''' mfilename ''' lambdast be passed in pairs.']);
@@ -30,6 +31,8 @@ for parameterIndex = 1:parameterCount
         case 'wfdfile'
             wfdFile = parameterValue;
             writeWfd = 1;
+        case 'freesurf'
+            freeSurf = parameterValue;
         otherwise
             error(['The parameter ''' parameterName ''' is not recognized by the function ''' mfilename '''.']);  
     end
@@ -38,7 +41,9 @@ end
 ne = npml ;
 coef = DCoef(4, 's');
 [d1, d2] = pml_Coef(nz, nx, dz, dx, npml, v);
-d2(1:round(end/2),:) = 0;
+if freeSurf
+    d2(1:round(end/2),:) = 0;
+end
 nze = nz + 2*ne;
 nxe = nx + 2*ne;
 ng = size(gxz, 1);

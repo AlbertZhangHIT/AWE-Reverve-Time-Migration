@@ -10,6 +10,7 @@ displayFreq = inf;
 showImage = 0;
 records = [];
 readRecord = 0;
+freeSurf = 0;
 %Parse the optional inputs.
 if (mod(length(varargin), 2) ~= 0 )
     error(['Extra Parameters passed to the function ''' mfilename ''' lambdast be passed in pairs.']);
@@ -28,6 +29,8 @@ for parameterIndex = 1:parameterCount
         case 'recorddir'
             recordDir = parameterValue;
             readRecord = 1;
+        case 'freesurf'
+            freeSurf = parameterValue;
         otherwise
             error(['The parameter ''' parameterName ''' is not recognized by the function ''' mfilename '''.']);  
     end
@@ -64,7 +67,7 @@ if ~isempty(records)
             fclose(fid);
         end
         stg_bd(nz, nx, nt, dz, dx, dt, npml, v, sxz(ishot,:), gxz, record, 'wfd', wfdFile, ...
-            'display', displayFreq, 'show', showImage);
+            'display', displayFreq, 'show', showImage, 'freesurf', freeSurf);
     end  
     return;
 end
@@ -81,7 +84,7 @@ if (readRecord)
             fclose(fid);
         end
         stg_bd(nz, nx, nt, dz, dx, dt, npml, v, sxz(ishot,:), gxz, record, 'wfd', wfdFile, ...
-            'display', displayFreq, 'show', showImage);
+            'display', displayFreq, 'show', showImage, 'freesurf', freeSurf);
     end
     return;
 end

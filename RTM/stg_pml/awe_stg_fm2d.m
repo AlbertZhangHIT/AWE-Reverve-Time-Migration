@@ -6,6 +6,7 @@ writeRecord = 0;
 writeWfd = 0;
 displayFreq = inf;
 showImage = 0;
+freeSurf = 0;
 %Parse the optional inputs.
 if (mod(length(varargin), 2) ~= 0 )
     error(['Extra Parameters passed to the function ''' mfilename ''' lambdast be passed in pairs.']);
@@ -25,6 +26,8 @@ for parameterIndex = 1:parameterCount
         case 'wfddir'
             wfdDir = parameterValue;
             writeWfd = 1;
+        case 'freesurf'
+            freeSurf = parameterValue;
         otherwise
             error(['The parameter ''' parameterName ''' is not recognized by the function ''' mfilename '''.']);  
     end
@@ -65,7 +68,7 @@ if (writeRecord && writeWfd)
             fclose(fid);
         end
         tmp = stg_fd(nz, nx, nt, dz, dx, dt, npml, v, wlt, sxz(ishot, :), gxz, 'recordfile', recordFile, ...
-                'wfdfile', wfdFile, 'show', showImage, 'display', displayFreq);
+                'wfdfile', wfdFile, 'show', showImage, 'display', displayFreq, 'freesurf', freeSurf);
     end
 end
 
@@ -78,7 +81,7 @@ if (writeRecord && ~writeWfd)
             fclose(fid);
         end
         tmp = stg_fd(nz, nx, nt, dz, dx, dt, npml, v, wlt, sxz(ishot, :), gxz, 'recordfile', recordFile, ...
-                'show', showImage, 'display', displayFreq);
+                'show', showImage, 'display', displayFreq, 'freesurf', freeSurf);
     end
 end
 
@@ -92,7 +95,7 @@ if (~writeRecord && writeWfd)
             fclose(fid);
         end
         tmp = stg_fd(nz, nx, nt, dz, dx, dt, npml, v, wlt, sxz(ishot, :), gxz, ...
-                'wfdfile', wfdFile, 'show', showImage, 'display', displayFreq);
+                'wfdfile', wfdFile, 'show', showImage, 'display', displayFreq, 'freesurf', freeSurf);
         out(:, (ishot-1)*ng+1:ishot*ng) = tmp;
     end
 end
@@ -102,7 +105,7 @@ if (~writeRecord && ~writeWfd)
     for ishot = 1 : ns
         disp(['\n Shot: ', num2str(ishot), ', source location: x-', num2str(sxz(ishot, 2)), ' z-', num2str(sxz(ishot, 1))]);
         tmp = stg_fd(nz, nx, nt, dz, dx, dt, npml, v, wlt, sxz(ishot, :), gxz, ...
-                'show', showImage, 'display', displayFreq);
+                'show', showImage, 'display', displayFreq, 'freesurf', freeSurf);
         out(:, (ishot-1)*ng+1:ishot*ng) = tmp;
     end
 end

@@ -39,7 +39,7 @@ rcFile_rg = 'Data\Demo\rc_rg.bin';
 
 % test stg
 figure(1)
-record_stg = stg_fd(nz, nx, nt, dz, dx, dt, bnd, v, wlt, sxz, gxz, 'show', 1, 'display', 10, 'recordfile', rcFile_stg);
+record_stg = stg_fd(nz, nx, nt, dz, dx, dt, bnd, v, wlt, sxz, gxz, 'show', 1, 'display', 10, 'recordfile', rcFile_stg, 'freesurf', 1);
 
 % test rg
 figure(2)
