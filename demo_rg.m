@@ -50,9 +50,10 @@ if forward
 Records = awe_rg_fm2d(nz, nx, nt, dz, dx, dt, bnd, BPsmall, wlt, sxz, gxz, 'display', 500, ...
         'wfddir', fdFolder, 'show', 1);
 % modeling direct wave
-DirectWave = awe_rg_fm2d(nz, nx, nt, dz, dz, dt, bnd, vc, wlt, sxz, gxz, 'display', 500);
+%DirectWave = awe_rg_fm2d(nz, nx, nt, dz, dz, dt, bnd, vc, wlt, sxz, gxz, 'display', 500);
 % muting direct wave
-Records = Records - DirectWave;
+%Records = Records - DirectWave;
+
 % show
 figure, imagesc(Records), colormap(gray); colorbar;
 title('Seismic signals')
@@ -60,7 +61,6 @@ title('Seismic signals')
 % write out records
 writeRecords(nt, gxz, sxz, Records, fdFolder);
 % processing on seismic records
-
 end
 
 if backward

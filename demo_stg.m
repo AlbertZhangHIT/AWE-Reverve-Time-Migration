@@ -7,8 +7,9 @@ addpath('kernel')
 addpath('util')
 addpath('filter')
 
-load BPsmall4.mat
-
+%load BPsmall4.mat
+load('D:\\SeismicDataSet\\mat\\matVel\\Marmousi2\\vel_1086_8252.mat');
+BPsmall = v;
 nx = size(BPsmall, 2);
 
 BPsmall = [BPsmall(1,floor(nx/2))*ones(3, nx); BPsmall];
@@ -29,7 +30,7 @@ fdom = 20;
 wlt = wavelet(dt, nt, fdom, delay);
 
 % source geometry
-ns = 10;
+ns = 1;
 sxz = ones(ns, 2);
 sxz(:, 2) = ceil(linspace(1, nx, ns))';
 
@@ -41,15 +42,16 @@ gxz(:, 2) = 1:nx;
 vc = BPsmall(1, floor(nx/2))*ones(nz, nx);
 
 forward = 1;
-backward = 1;
+backward = 0;
+freeSurf = 0;
 % forward modeling
 fdFolder = 'Data\BPsmall4\stgFD_nt_2501\';
-
+Records = [];
 if forward
-    Records = awe_stg_fm2d(nz, nx, nt, dz, dx, dt, bnd, BPsmall, wlt, sxz, gxz, 'display', 500, ...
-            'wfddir', fdFolder);
+    Records = awe_stg_fm2d(nz, nx, nt, dz, dx, dt, bnd, BPsmall, wlt, sxz, gxz, 'display', 500, 'freesurf', freeSurf);%, ...
+           % 'wfddir', fdFolder);
     % modeling direct wave
-    DirectWave = awe_stg_fm2d(nz, nx, nt, dz, dz, dt, bnd, vc, wlt, sxz, gxz, 'display', 500);
+    DirectWave = awe_stg_fm2d(nz, nx, nt, dz, dz, dt, bnd, vc, wlt, sxz, gxz, 'display', 500, 'freesurf', freeSurf);
     % muting direct wave
     Records = Records - DirectWave;
     clear DirectWave;
@@ -62,7 +64,6 @@ if forward
     % processing on seismic records
 end
 if backward
-Records = [];
 % reverse time migration
 [rfl, image, normal] = awe_stg_rtm2d(nz, nx, nt, dz, dx, dt, bnd, BPsmall, sxz, gxz, fdFolder, 'display', 500, ...
         'records', Records, 'recorddir', fdFolder, 'show', 1);
