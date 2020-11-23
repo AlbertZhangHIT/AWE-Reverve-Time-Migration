@@ -40,6 +40,12 @@ end
 
 ne = npml ;
 coef = DCoef(4, 's');
+
+%%% check stability
+if dt >= 1 / (sqrt(2) * max(v(:))/(min(dx, dz))) / sum(abs(coef))
+    error('The numerical configuration leads to unstability, please reset.');
+end
+
 [d1, d2] = pml_Coef(nz, nx, dz, dx, npml, v);
 if freeSurf
     d2(1:round(end/2),:) = 0;
